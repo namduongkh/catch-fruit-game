@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "webpack --watch",
+        "serve": "webpack --watch",
         "publish": "npx babel-node ./tasks/publish-gh-pages"
     },
     "keywords": [],
