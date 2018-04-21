@@ -1,6 +1,6 @@
 import { publish } from "gh-pages";
 
-publish('dist', function(err) {
+publish('build', function(err) {
     if (err) {
         console.log('Error:', err);
     } else {
