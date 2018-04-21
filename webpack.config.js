@@ -5,13 +5,24 @@ const webpack = require('webpack');
 const glob = require("glob")
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
+global.siteUrl = 'http://localhost:3000/';
+
 module.exports = {
     mode: 'development',
-    entry: [...glob.sync('./src/*.js'), ...glob.sync('./src/*.ts')],
+    entry: [
+        ...glob.sync('./app/libs/*.js'),
+        ...glob.sync('./app/*.js')
+    ],
     // devtool: 'inline-source-map',
     // devServer: {
     //     contentBase: './dist',
     //     hot: true
+    // },
+    // resolve: {
+    //     extensions: ['.js', '.json'],
+    //     alias: {
+    //         '~siteUrl': 'http://localhost:3000/'
+    //     },
     // },
     module: {
         rules: [{
