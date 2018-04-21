@@ -7,20 +7,19 @@ const PATHS = require('./config/path');
 
 module.exports = (env) => {
     return {
-        mode: process.env.NODE_ENV || 'development',
+        mode: env == "dev" ? 'development' : 'production',
         entry: [
             ...glob.sync('./app/libs/*.js'),
             ...glob.sync('./app/*.js')
         ],
         module: {
             rules: [{
-                    test: /\.(mp3)$/,
-                    use: [{
-                        loader: 'file-loader',
-                        options: {}
-                    }]
-                },
-            ]
+                test: /\.(mp3)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {}
+                }]
+            }, ]
         },
         plugins: [
             new CleanWebpackPlugin([PATHS.dist, PATHS.build]),
@@ -38,7 +37,7 @@ module.exports = (env) => {
             })
         ],
         output: {
-            filename: 'bundle.js',
+            filename: env == "dev" ? 'bundle.js' : 'bundle.min.js',
             path: env == "dev" ? PATHS.dist : PATHS.build,
         }
     };
