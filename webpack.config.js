@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const glob = require("glob")
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
 module.exports = {
     mode: 'development',
@@ -13,15 +14,12 @@ module.exports = {
     //     hot: true
     // },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.(jpg|mp3)$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {}
-                    }
-                ]
+                use: [{
+                    loader: 'file-loader',
+                    options: {}
+                }]
             },
             // {
             //     test: /\.tsx?$/,
@@ -39,7 +37,14 @@ module.exports = {
             title: 'Creative Game Prototype',
         }),
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        // new webpack.HotModuleReplacementPlugin(),
+        new BrowserSyncPlugin({
+            // browse to http://localhost:3000/ during development,
+            // ./public directory is being served
+            host: 'localhost',
+            port: 3000,
+            server: { baseDir: ['./dist'] }
+        })
     ],
     output: {
         filename: 'bundle.js',
