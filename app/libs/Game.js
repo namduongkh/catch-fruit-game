@@ -7,31 +7,28 @@ export default class Game {
     constructor(options = {}) {
         this.playing = false;
         this.options = options;
-        if (!this.options.events) {
-            this.options.events = {};
-        }
     }
 
     start() {
-        if (this.options.events.beforeStart) {
-            this.options.events.beforeStart();
+        if (this.beforeStart) {
+            this.beforeStart().bind(this);
         }
         if (!this.playing) {
             this.playing = true;
             requestAnimationFrame(this.loop.bind(this));
         }
-        if (this.options.events.afterStart) {
-            this.options.events.afterStart();
+        if (this.afterStart) {
+            this.afterStart().bind(this);
         }
     }
 
     stop() {
-        if (this.options.events.beforeStop) {
-            this.options.events.beforeStop();
+        if (this.beforeStop) {
+            this.beforeStop().bind(this);
         }
         this.playing = false;
-        if (this.options.events.afterStop) {
-            this.options.events.afterStop();
+        if (this.afterStop) {
+            this.afterStop().bind(this);
         }
     }
 
@@ -40,7 +37,7 @@ export default class Game {
             return;
         }
         if (this.options.loop) {
-            this.options.loop();
+            this.options.loop().bind(this);
         }
         requestAnimationFrame(this.loop.bind(this));
     }

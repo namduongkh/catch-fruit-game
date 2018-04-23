@@ -7,6 +7,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "serve": "webpack --env=dev --watch",
         "publish": "npm run build && npx babel-node ./tasks/publish-gh-pages",
+        "publish-debug": "webpack --env=prod && npx babel-node ./tasks/publish-gh-pages",
         "build": "webpack --env=prod"
     },
     "keywords": [],
