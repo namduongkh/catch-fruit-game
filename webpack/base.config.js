@@ -8,6 +8,7 @@ const PATHS = require('./config/path');
 module.exports = (env) => {
     return {
         mode: env == "dev" ? 'development' : 'production',
+        // mode: 'development',
         entry: [
             ...glob.sync('./app/libs/*.js'),
             ...glob.sync('./app/*.js')
@@ -19,7 +20,7 @@ module.exports = (env) => {
                     loader: 'file-loader',
                     options: {}
                 }]
-            }, ]
+            },]
         },
         plugins: [
             new CleanWebpackPlugin([PATHS.dist, PATHS.build]),

@@ -11,24 +11,24 @@ export default class Game {
 
     start() {
         if (this.beforeStart) {
-            this.beforeStart().bind(this);
+            this.beforeStart();
         }
         if (!this.playing) {
             this.playing = true;
             requestAnimationFrame(this.loop.bind(this));
         }
         if (this.afterStart) {
-            this.afterStart().bind(this);
+            this.afterStart();
         }
     }
 
     stop() {
         if (this.beforeStop) {
-            this.beforeStop().bind(this);
+            this.beforeStop();
         }
         this.playing = false;
         if (this.afterStop) {
-            this.afterStop().bind(this);
+            this.afterStop();
         }
     }
 
@@ -36,8 +36,8 @@ export default class Game {
         if (!this.playing) {
             return;
         }
-        if (this.options.loop) {
-            this.options.loop().bind(this);
+        if (this.inLoop) {
+            this.inLoop();
         }
         requestAnimationFrame(this.loop.bind(this));
     }
