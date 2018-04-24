@@ -4,37 +4,28 @@ const webpack = require('webpack');
 const glob = require("glob")
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const PATHS = require('./config/path');
+const ENTRIES = require('./config/entries');
+const LOADERS = require('./config/loaders');
 
 module.exports = (env, debug) => {
     return {
         mode: env == "dev" || debug ? 'development' : 'production',
-        entry: [
-            ...glob.sync('./app/libs/*.js'),
-            ...glob.sync('./app/*.js')
-        ],
+        entry: ENTRIES(env),
         module: {
-            rules: [{
-                test: /\.(mp3)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {}
-                }]
-            }, ]
+            rules: LOADERS(env)
         },
         plugins: [
             new CleanWebpackPlugin([PATHS.dist, PATHS.build]),
             new HtmlWebpackPlugin({
                 title: 'Creative Game Prototype',
+                template: PATHS.debugTemplates
             }),
             new webpack.NamedModulesPlugin(),
-            // new webpack.HotModuleReplacementPlugin(),
             new BrowserSyncPlugin({
-                // browse to http://localhost:3000/ during development,
-                // ./public directory is being served
                 host: 'localhost',
                 port: 3000,
                 server: { baseDir: [PATHS.dist] }
-            })
+            }),
         ],
         output: {
             filename: env == "dev" ? 'bundle.js' : 'bundle.min.js',

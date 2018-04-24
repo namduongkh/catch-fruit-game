@@ -1,3 +1,5 @@
+import { assignIn } from 'lodash';
+
 export default class Game {
 
     /**
@@ -6,7 +8,16 @@ export default class Game {
      */
     constructor(options = {}) {
         this.playing = false;
-        this.options = options;
+        this.options = assignIn({
+            screen: {
+                size: {
+                    width: 320,
+                    height: 400
+                }
+            },
+            ctx: {},
+            noop: function() {}
+        }, options);
     }
 
     start() {

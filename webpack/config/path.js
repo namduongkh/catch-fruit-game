@@ -4,6 +4,7 @@ const PATHS = {
     // htmlModulePath: htmlModulePath,
     dist: ROOT_PATH + '/dist',
     build: ROOT_PATH + '/build',
+    debugTemplates: ROOT_PATH + '/app-debug/templates/game.html',
     // module: ROOT_PATH + htmlModulePath,
     // skin: ROOT_PATH + htmlModulePath + '/skin'
 };
