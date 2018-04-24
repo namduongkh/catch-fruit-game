@@ -5,10 +5,9 @@ const glob = require("glob")
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 const PATHS = require('./config/path');
 
-module.exports = (env) => {
+module.exports = (env, debug) => {
     return {
-        mode: env == "dev" ? 'development' : 'production',
-        // mode: 'development',
+        mode: env == "dev" || debug ? 'development' : 'production',
         entry: [
             ...glob.sync('./app/libs/*.js'),
             ...glob.sync('./app/*.js')
@@ -20,7 +19,7 @@ module.exports = (env) => {
                     loader: 'file-loader',
                     options: {}
                 }]
-            },]
+            }, ]
         },
         plugins: [
             new CleanWebpackPlugin([PATHS.dist, PATHS.build]),
