@@ -9,7 +9,7 @@ let _game = new CatchFruit({
     basket: new ScreenObjectExample(100, 300, 100, 100, { name: "Basket", id: "basket1" }),
     fruits: [fruit1, fruit2],
     scoreBoard: scoreBoard,
-    catched: [new ScreenObjectExample(), new ScreenObjectExample()]
+    catched: [new ScreenObjectExample(), new ScreenObjectExample()],
 });
 
 // _game.options.basket.draw();

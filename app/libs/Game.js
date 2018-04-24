@@ -16,7 +16,8 @@ export default class Game {
                 }
             },
             ctx: {},
-            noop: function() {}
+            noop: function() {},
+            loopMs: 0
         }, options);
     }
 
@@ -58,10 +59,12 @@ export default class Game {
         if (!this.playing) {
             return;
         }
-        if (this.inLoop) {
-            this.inLoop();
-        }
-        requestAnimationFrame(this.loop.bind(this));
+        setTimeout(() => {
+            if (this.inLoop) {
+                this.inLoop();
+            }
+            requestAnimationFrame(this.loop.bind(this));
+        }, this.options.loopMs);
     }
 
     draw() {
