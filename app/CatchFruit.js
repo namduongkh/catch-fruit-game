@@ -25,7 +25,7 @@ export default class CatchFruit extends Game {
 
     beforeStart() {
         this.options.fruits.map((fruit) => {
-            this.initDropItem(fruit, game);
+            this.initDropItem(fruit, this);
         });
         this.fruitDropping = { elem: this.getRandomDrop() };
     }
@@ -36,7 +36,7 @@ export default class CatchFruit extends Game {
     }
 
     getRandomDrop() {
-        return this.options.fruits[Math.floor((Math.random() * (this.options.fruits.length - 1)) + 0)];
+        return this.options.fruits[Math.floor((Math.random() * (this.options.fruits.length)) + 0)];
     }
 
     initDropItem(fruit, game) {
@@ -44,10 +44,12 @@ export default class CatchFruit extends Game {
             let fruit = this;
             fruit.setPosition(fruit.position.x, -fruit.size.height);
             game.fruitDropping = { elem: game.getRandomDrop() };
+            // console.log(game.fruitDropping);
         };
 
         fruit.drop = function() {
             let fruit = this;
+            // console.log(fruit.name)
             fruit.setPosition(fruit.position.x, fruit.position.y += 3);
             if (fruit.position.y > game.options.screen.size.height) {
                 fruit.resetDrop();
@@ -62,7 +64,7 @@ export default class CatchFruit extends Game {
             let botFruit = fruit.position.y + fruit.size.height;
             let rightFruit = fruit.position.x + fruit.size.width;
 
-            if (((basket.position.x <= rightFruit && rightFruit <= rightBasket) || (basket.position.x >= fruit.position.x && rightBasket >= fruit.position.x)) &&
+            if (((basket.position.x <= rightFruit && rightFruit <= rightBasket) || (basket.position.x <= fruit.position.x && fruit.position.x <= rightBasket)) &&
                 basket.position.y + 20 <= botFruit) {
                 fruit.resetDrop();
                 game.options.score++;

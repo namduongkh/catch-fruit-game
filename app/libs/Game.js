@@ -43,6 +43,17 @@ export default class Game {
         }
     }
 
+    // continue () {
+    //     if (!this.playing) {
+    //         this.playing = true;
+    //         // requestAnimationFrame(this.loop.bind(this));
+    //     }
+    // }
+
+    // pause() {
+    //     this.playing = false;
+    // }
+
     loop() {
         if (!this.playing) {
             return;
