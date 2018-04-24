@@ -16,7 +16,7 @@ export default class Game {
                 }
             },
             ctx: {},
-            noop: function() {}
+            noop: function () { }
         }, options);
     }
 
@@ -64,9 +64,11 @@ export default class Game {
         requestAnimationFrame(this.loop.bind(this));
     }
 
-    draw() {
-        let screenElem = document.getElementById('game-screen');
-        screenElem.style.width = this.options.screen.size.width + 'px';
-        screenElem.style.height = this.options.screen.size.height + 'px';
-    }
+    // draw() {
+    //     // let screenElem = document.getElementById('game-screen');
+    //     // screenElem.style.width = this.options.screen.size.width + 'px';
+    //     // screenElem.style.height = this.options.screen.size.height + 'px';
+    //     this.options.ctx.fillStyle = "#fff";
+    //     this.options.ctx.fillRect(this.options.ctx.root.x, this.options.ctx.root.y, this.options.screen.size.width, this.options.screen.size.height);
+    // }
 }
