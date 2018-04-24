@@ -52,4 +52,10 @@ export default class Game {
         }
         requestAnimationFrame(this.loop.bind(this));
     }
+
+    draw() {
+        let screenElem = document.getElementById('game-screen');
+        screenElem.style.width = this.options.screen.size.width + 'px';
+        screenElem.style.height = this.options.screen.size.height + 'px';
+    }
 }

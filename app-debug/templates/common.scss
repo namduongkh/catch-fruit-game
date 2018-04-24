@@ -1,3 +1,30 @@
 body {
     color: red;
 }
+
+.wrapper {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    left: 400px;
+    top: 100px;
+    background-color: #ddd;
+    .container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+#game-screen {
+    background-color: #fff;
+    border: 1px solid #000;
+    .screen-container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+}
