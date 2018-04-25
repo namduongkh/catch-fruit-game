@@ -19,6 +19,7 @@ export default class Game {
             noop: function () { },
             loopMs: 0
         }, options);
+        this.options.screen.draw();
     }
 
     start() {
@@ -63,6 +64,7 @@ export default class Game {
             if (this.inLoop) {
                 this.inLoop();
             }
+            this.options.screen.draw();
             requestAnimationFrame(this.loop.bind(this));
         }, this.options.loopMs);
     }
