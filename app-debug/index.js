@@ -16,8 +16,8 @@ let _game = new CatchFruit({
     noop: gameScreen.noop,
     basket,
     fruits: [fruit1, fruit2],
-    scoreBoard,
-    catched: [new ScreenObjectExample(), new ScreenObjectExample()]
+    scoreBoard: scoreBoard,
+    catched: [new ScreenObjectExample(), new ScreenObjectExample()],
 });
 
 window.game = _game;
