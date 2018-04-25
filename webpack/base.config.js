@@ -9,6 +9,9 @@ const LOADERS = require('./config/loaders');
 
 module.exports = (env, debug) => {
     return {
+        node: {
+            fs: "empty"
+        },
         mode: env == "dev" || debug ? 'development' : 'production',
         entry: ENTRIES(env),
         module: {

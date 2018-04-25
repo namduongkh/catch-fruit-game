@@ -1,6 +1,6 @@
-const LOADERS = function(env) {
+const LOADERS = function (env) {
     let loaders = [{
-        test: /\.(mp3)$/,
+        test: /\.(mp3|png|jpg|jpeg|svg)$/,
         use: [{
             loader: 'file-loader',
             options: {}
