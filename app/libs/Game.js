@@ -1,4 +1,5 @@
 import { assignIn } from 'lodash';
+import GameEventEmitter from './GameEventEmitter';
 
 export default class Game {
 
@@ -7,6 +8,7 @@ export default class Game {
      * @param {*} options 
      */
     constructor(options = {}) {
+        this.emitter = GameEventEmitter.getInstance();
         this.playing = false;
         this.options = assignIn({
             screen: {
@@ -16,33 +18,44 @@ export default class Game {
                 }
             },
             ctx: {},
-            noop: function () { },
-            loopMs: 0
+            noop: function() {},
+            loopMs: 0,
         }, options);
-        this.options.screen.draw();
+        this.initCallbacks();
+        this.emitEvent('afterInit');
+    }
+
+    initCallbacks() {
+        this.onEvent('beforeStart', this.beforeStart);
+        this.onEvent('afterStart', this.afterStart);
+        this.onEvent('beforeLoop', this.beforeLoop);
+        this.onEvent('inLoop', this.inLoop);
+        this.onEvent('afterLoop', this.afterLoop);
+        this.onEvent('beforeStop', this.beforeStop);
+        this.onEvent('afterStop', this.afterStop);
+    }
+
+    onEvent(eventName, callback = function() {}) {
+        this.emitter.on(eventName, callback.bind(this));
+    }
+
+    emitEvent(eventName, data) {
+        this.emitter.emit(eventName, data);
     }
 
     start() {
-        if (this.beforeStart) {
-            this.beforeStart();
-        }
+        this.emitEvent('beforeStart');
         if (!this.playing) {
             this.playing = true;
             requestAnimationFrame(this.loop.bind(this));
         }
-        if (this.afterStart) {
-            this.afterStart();
-        }
+        this.emitEvent('afterStart');
     }
 
     stop() {
-        if (this.beforeStop) {
-            this.beforeStop();
-        }
+        this.emitEvent('beforeStop');
         this.playing = false;
-        if (this.afterStop) {
-            this.afterStop();
-        }
+        this.emitEvent('afterStop');
     }
 
     // continue () {
@@ -61,11 +74,10 @@ export default class Game {
             return;
         }
         setTimeout(() => {
-            if (this.inLoop) {
-                this.inLoop();
-            }
-            this.options.screen.draw();
+            this.emitEvent('beforeLoop');
+            this.emitEvent('inLoop');
             requestAnimationFrame(this.loop.bind(this));
+            this.emitEvent('afterLoop');
         }, this.options.loopMs);
     }
 

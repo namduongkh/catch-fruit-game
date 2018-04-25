@@ -13,7 +13,6 @@ export default class CatchFruit extends Game {
         catched,
         config: {
             dropSpeed,
-
         }
     }
     */
@@ -31,6 +30,7 @@ export default class CatchFruit extends Game {
     }
 
     inLoop() {
+        // this.options.screen.clear();
         this.fruitDropping.elem.drop();
         this.fruitDropping.elem.hitBasket();
     }

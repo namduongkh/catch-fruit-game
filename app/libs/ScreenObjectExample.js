@@ -1,4 +1,5 @@
 import { assignIn } from 'lodash';
+import GameEventEmitter from './GameEventEmitter';
 
 export default class ScreenObjectExample {
 
@@ -19,13 +20,21 @@ export default class ScreenObjectExample {
         for (let i in config) {
             this[i] = config[i];
         }
-        this.draw();
+        this.emitter = GameEventEmitter.getInstance();
+        this.emitter.on('afterInit', () => {
+            this.draw();
+        });
+        this.emitter.on('inLoop', () => {
+            // console.log('object inloop')
+            this.draw();
+        });
     }
 
-    showAction(ctx, argv, noop) { }
-    hideAction(ctx, argv, noop) { }
+    showAction(ctx, argv, noop) {}
+    hideAction(ctx, argv, noop) {}
     setTextAction(ctx, argv, noop) {
         // this.element.getElementsByClassName('value')[0].innerText = (argv.text || '');
+        this.text = argv.text;
     }
     setPosition(x, y) {
         this.position.x = x;
@@ -34,8 +43,17 @@ export default class ScreenObjectExample {
         // this.element.style.top = y + 'px';
         // this.element.style.left = x + 'px';
 
-        if (this.ctx) {
-            this.draw(x, y);
+        // if (this.ctx) {
+        //     this.draw();
+        // }
+    }
+
+    getCanvasPosition() {
+        return {
+            x: this.ctx.root.x + this.position.x,
+            y: this.ctx.root.y + this.position.y,
+            midX: this.ctx.root.x + this.position.x + this.size.width / 2,
+            midY: this.ctx.root.y + this.position.y + this.size.height / 2,
         }
     }
 
@@ -55,8 +73,17 @@ export default class ScreenObjectExample {
         // screenGame.getElementsByClassName('screen-container')[0].appendChild(this.element);
         // console.log(this.ctx);
         if (this.ctx) {
-            this.ctx.fillStyle = 'blueviolet';
-            this.ctx.fillRect(this.ctx.root.x + x, this.ctx.root.y + y, this.size.width, this.size.height);
+            let canvasPosition = this.getCanvasPosition();
+            // console.log('draw screen object');
+            this.ctx.fillStyle = '#000';
+            this.ctx.fillRect(canvasPosition.x, canvasPosition.y, this.size.width, this.size.height);
+            this.ctx.fillStyle = 'lime';
+            this.ctx.fillRect(canvasPosition.x + 1, canvasPosition.y + 1, this.size.width - 2, this.size.height - 2);
+            this.ctx.fillStyle = "#000";
+            this.ctx.font = "13px Arial";
+            this.ctx.textAlign = "center";
+            this.ctx.fillText((this.name || ''), canvasPosition.midX, canvasPosition.midY);
+            this.ctx.fillText((this.text || ''), canvasPosition.midX, canvasPosition.midY + 15);
         }
     }
 }
