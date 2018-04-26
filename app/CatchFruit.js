@@ -1,4 +1,5 @@
 import Game from './libs/Game';
+import { assignIn } from "lodash";
 
 export default class CatchFruit extends Game {
 
@@ -17,6 +18,11 @@ export default class CatchFruit extends Game {
     }
     */
     constructor(options) {
+        options = _.assignIn({
+            config: {
+                dropSpeed: 3
+            }
+        }, options);
         super(options);
         // console.log('options', options);
         this.options.score = 0;
@@ -26,7 +32,7 @@ export default class CatchFruit extends Game {
         this.options.fruits.map((fruit) => {
             this.initDropItem(fruit, this);
         });
-        this.fruitDropping = { elem: this.getRandomDrop() };
+        this.fruitDropping = this.getRandomDrop();
     }
 
     inLoop() {
@@ -36,21 +42,25 @@ export default class CatchFruit extends Game {
     }
 
     getRandomDrop() {
-        return this.options.fruits[Math.floor((Math.random() * (this.options.fruits.length)) + 0)];
+        return {
+            elem: this.options.fruits[Math.floor((Math.random() * (this.options.fruits.length)) + 0)],
+            speed: this.options.config.dropSpeed
+        };
     }
 
     initDropItem(fruit, game) {
         fruit.resetDrop = function() {
             let fruit = this;
             fruit.setPosition(fruit.position.x, -fruit.size.height);
-            game.fruitDropping = { elem: game.getRandomDrop() };
+            game.fruitDropping = game.getRandomDrop();
             // console.log(game.fruitDropping);
         };
 
         fruit.drop = function() {
             let fruit = this;
             // console.log(fruit.name)
-            fruit.setPosition(fruit.position.x, fruit.position.y += 3);
+            fruit.setPosition(fruit.position.x, fruit.position.y += game.fruitDropping.speed);
+            game.fruitDropping.speed *= 1.05;
             if (fruit.position.y > game.options.screen.size.height) {
                 fruit.resetDrop();
             }
